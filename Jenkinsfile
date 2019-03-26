@@ -7,12 +7,12 @@ node{
       def mvnHome =  tool name: 'localMaven', type: 'maven'   
       sh "${mvnHome}/bin/mvn package"
    }
-  stage('SonarQube Analysis') {
-        def mvnHome =  tool name: 'localMaven', type: 'maven'
-        withSonarQubeEnv('sonar') {
-          sh "${mvnHome}/bin/mvn sonar:sonar"
-        }
-    }
+ // stage('SonarQube Analysis') {
+  //      def mvnHome =  tool name: 'localMaven', type: 'maven'
+  //      withSonarQubeEnv('sonar') {
+//          sh "${mvnHome}/bin/mvn sonar:sonar"
+//        }
+//    }
 	
 	stage ('Artifactory Deploy'){
 		def server = Artifactory.server artifactory-server
