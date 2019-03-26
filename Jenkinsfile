@@ -13,6 +13,19 @@ node{
           sh "${mvnHome}/bin/mvn sonar:sonar"
         }
     }
+	
+	stage ('Artifactory Deploy'){
+		def server = Artifactory.server artifactory-server
+		def rtMaven = Artifactory.newMavenBuild()
+		rtMaven.resolver server: server, releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot'
+		rtMaven.deployer server: server, releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local'
+		rtMaven.tool = 'localMaven'
+                rtMaven.deployer.deployArtifacts = false // Disable artifacts deployment during Maven run
+                buildInfo = Artifactory.newBuildInfo()
+                rtMaven.run pom: 'maven-example/pom.xml', goals: 'install', buildInfo: buildInfo
+                rtMaven.deployer.deployArtifacts buildInfo
+		server.publishBuildInfo buildInfo
+	}
 }
 
 
