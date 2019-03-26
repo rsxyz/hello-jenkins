@@ -22,7 +22,7 @@ node{
 		rtMaven.tool = 'localMaven'
                 rtMaven.deployer.deployArtifacts = false // Disable artifacts deployment during Maven run
                 buildInfo = Artifactory.newBuildInfo()
-                rtMaven.run pom: 'maven-example/pom.xml', goals: 'install', buildInfo: buildInfo
+                rtMaven.run pom: 'pom.xml', goals: 'install', buildInfo: buildInfo
                 rtMaven.deployer.deployArtifacts buildInfo
 		server.publishBuildInfo buildInfo
 	}
